@@ -7,27 +7,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
-    <!-- ==================== PROPELLERADS HEAD CODE ==================== -->
-    <script type="text/javascript">
-        (function() {
-            var d = document,
-                w = window;
-            w._mstProvider = 'PROVIDER_ID_ANDA'; // GANTI DENGAN ID DARI DASHBOARD PROPELLERADS
-            w._mstMTime = 1234567890;
-            w._mstMUrl = w.location.protocol + '//' + w.location.host;
-            
-            var loadScript = function(url, id) {
-                var script = d.createElement('script');
-                script.src = url;
-                script.async = true;
-                script.id = id;
-                d.head.appendChild(script);
-            };
-            
-            loadScript('//cdn.monetag.com/mst.js', 'mst-script');
-        })();
-    </script>
-    <!-- ==================== END PROPELLERADS HEAD CODE ==================== -->
+    <!-- ==================== INFOLINKS CODE - TAMBAHKAN API KEY ANDA DI SINI ==================== -->
+   <script type="text/javascript"> var infolinks_pid = 3443547; var infolinks_wsid = 0; </script> <script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
+    <!-- ==================== END INFOLINKS CODE ==================== -->
     
     <style>
         * {
@@ -548,36 +530,6 @@
             font-size: 1.2rem;
         }
 
-        /* ==================== IKLAN PLACEHOLDER ==================== */
-        .ad-container {
-            width: 100%;
-            min-height: 90px;
-            background-color: #2c3e50;
-            border-radius: 5px;
-            margin: 20px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #95a5a6;
-            font-size: 0.9rem;
-            border: 1px dashed #f3b33d;
-            overflow: hidden;
-        }
-
-        .ad-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .ad-label {
-            text-align: center;
-            font-size: 0.7rem;
-            color: #95a5a6;
-            margin-top: 2px;
-        }
-        /* ==================== END IKLAN PLACEHOLDER ==================== */
-
         /* Tablet dan Desktop */
         @media (min-width: 768px) {
             .modal-content {
@@ -645,20 +597,6 @@
     </style>
 </head>
 <body>
-    <!-- ==================== PROPELLERADS BODY CODE (POP-UNDER) ==================== -->
-    <script type="text/javascript">
-        (function() {
-            window._mstN = window._mstN || {};
-            _mstN['zoneId'] = 'ZONE_ID_POPUNDER_ANDA'; // GANTI DENGAN ZONE ID POP-UNDER
-            var s = document.createElement('script');
-            s.type = 'text/javascript';
-            s.async = true;
-            s.src = '//cdn.monetag.com/mst.js';
-            document.head.appendChild(s);
-        })();
-    </script>
-    <!-- ==================== END PROPELLERADS BODY CODE ==================== -->
-
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">NONTON FILM</div>
@@ -673,26 +611,6 @@
         <div class="genre-list" id="genreList"></div>
     </div>
 
-    <!-- ==================== IKLAN BANNER ATAS ==================== -->
-    <div class="main-content" style="padding-top: 0;">
-        <div class="ad-container" id="adTop">
-            <!-- PropellerAds Native Ad akan dimuat di sini -->
-            <script type="text/javascript">
-                (function() {
-                    window._mstN = window._mstN || {};
-                    _mstN['zoneId'] = 'ZONE_ID_NATIVE_ATAS_ANDA'; // GANTI DENGAN ZONE ID NATIVE
-                    var s = document.createElement('script');
-                    s.type = 'text/javascript';
-                    s.async = true;
-                    s.src = '//cdn.monetag.com/mst.js';
-                    document.getElementById('adTop').appendChild(s);
-                })();
-            </script>
-        </div>
-        <div class="ad-label">Iklan</div>
-    </div>
-    <!-- ==================== END IKLAN BANNER ATAS ==================== -->
-
     <div class="main-content">
         <h2 class="section-title" id="sectionTitle">Film Populer</h2>
         <div class="film-grid" id="filmGrid">
@@ -701,26 +619,6 @@
             </div>
         </div>
     </div>
-
-    <!-- ==================== IKLAN BANNER BAWAH ==================== -->
-    <div class="main-content" style="margin-top: 0;">
-        <div class="ad-container" id="adBottom">
-            <!-- PropellerAds Native Ad akan dimuat di sini -->
-            <script type="text/javascript">
-                (function() {
-                    window._mstN = window._mstN || {};
-                    _mstN['zoneId'] = 'ZONE_ID_NATIVE_BAWAH_ANDA'; // GANTI DENGAN ZONE ID NATIVE
-                    var s = document.createElement('script');
-                    s.type = 'text/javascript';
-                    s.async = true;
-                    s.src = '//cdn.monetag.com/mst.js';
-                    document.getElementById('adBottom').appendChild(s);
-                })();
-            </script>
-        </div>
-        <div class="ad-label">Iklan</div>
-    </div>
-    <!-- ==================== END IKLAN BANNER BAWAH ==================== -->
 
     <!-- Modal Detail Film dengan Video Player -->
     <div id="movieModal" class="modal">
@@ -781,23 +679,6 @@
                                 Klik salah satu situs di atas untuk mencari subtitle Indonesia. Jika satu situs error, coba situs lainnya.
                             </div>
                         </div>
-                        
-                        <!-- ==================== IKLAN DI DALAM MODAL ==================== -->
-                        <div class="ad-container" id="adModal" style="margin: 10px 0;">
-                            <script type="text/javascript">
-                                (function() {
-                                    window._mstN = window._mstN || {};
-                                    _mstN['zoneId'] = 'ZONE_ID_MODAL_ANDA'; // GANTI DENGAN ZONE ID MODAL
-                                    var s = document.createElement('script');
-                                    s.type = 'text/javascript';
-                                    s.async = true;
-                                    s.src = '//cdn.monetag.com/mst.js';
-                                    document.getElementById('adModal').appendChild(s);
-                                })();
-                            </script>
-                        </div>
-                        <div class="ad-label">Iklan</div>
-                        <!-- ==================== END IKLAN DI DALAM MODAL ==================== -->
                         
                         <div class="warning-message">
                             <i class="fas fa-exclamation-triangle"></i> 
