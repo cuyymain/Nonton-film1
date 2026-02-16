@@ -7,11 +7,12 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
-    <!-- ==================== INFOLINKS CODE - TAMBAHKAN API KEY ANDA DI SINI ==================== -->
-<script src="https://pl28718453.effectivegatecpm.com/20/f6/9d/20f69db9814e460d463032b301648c7b.js"></script>
+    <!-- ==================== INFOLINKS CODE ==================== -->
+    <script src="https://pl28718453.effectivegatecpm.com/20/f6/9d/20f69db9814e460d463032b301648c7b.js"></script>
     <!-- ==================== END INFOLINKS CODE ==================== -->
     
     <style>
+        /* ==================== CSS SAMA SEPERTI SEBELUMNYA ==================== */
         * {
             margin: 0;
             padding: 0;
@@ -154,6 +155,9 @@
             color: #fff;
             border-left: 5px solid #f3b33d;
             padding-left: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .loading {
@@ -194,6 +198,7 @@
             height: 250px;
             object-fit: cover;
             display: block;
+            background-color: #2c3e50;
         }
 
         .film-info {
@@ -225,7 +230,42 @@
             grid-column: 1 / -1;
         }
 
-        /* Modal Styling */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .page-btn {
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border: 1px solid #f3b33d;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background-color: #f3b33d;
+            color: #1a242f;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-info {
+            color: #f3b33d;
+            font-weight: bold;
+        }
+
+        /* Modal Styling (sama seperti sebelumnya) */
         .modal {
             display: none;
             position: fixed;
@@ -321,7 +361,6 @@
             color: #1a242f;
         }
 
-        /* Mode fullscreen manual */
         .video-container.fullscreen {
             position: fixed;
             top: 0;
@@ -428,7 +467,6 @@
             transform: scale(1.02);
         }
 
-        /* Bagian Subtitle dengan Multi-Source */
         .subtitle-section {
             margin: 20px 0;
             padding: 15px;
@@ -486,34 +524,6 @@
             border-top: 1px solid #3a4a5a;
         }
 
-        .button-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .watch-button {
-            background-color: #f3b33d;
-            color: #1a242f;
-            padding: 12px;
-            border-radius: 5px;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            font-size: 0.95rem;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .watch-button:hover {
-            background-color: #ffd700;
-            transform: scale(1.02);
-        }
-
         .warning-message {
             background-color: #c0392b;
             color: white;
@@ -530,7 +540,6 @@
             font-size: 1.2rem;
         }
 
-        /* Tablet dan Desktop */
         @media (min-width: 768px) {
             .modal-content {
                 margin: 20px auto;
@@ -559,7 +568,6 @@
             }
         }
 
-        /* HP kecil */
         @media (max-width: 480px) {
             .navbar {
                 padding: 0.8rem 1rem;
@@ -599,7 +607,7 @@
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">Universty Film</div>
+            <div class="logo">University Film</div>
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Cari judul film...">
                 <button type="submit" id="searchButton"><i class="fas fa-search"></i></button>
@@ -612,15 +620,28 @@
     </div>
 
     <div class="main-content">
-        <h2 class="section-title" id="sectionTitle">Film Populer</h2>
+        <h2 class="section-title" id="sectionTitle">
+            Film Populer
+        </h2>
         <div class="film-grid" id="filmGrid">
             <div class="loading">
                 <i class="fas fa-spinner fa-spin"></i> Memuat film...
             </div>
         </div>
+        
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+            <button class="page-btn" id="prevPage" disabled>
+                <i class="fas fa-chevron-left"></i> Sebelumnya
+            </button>
+            <span class="page-info" id="pageInfo">Halaman 1</span>
+            <button class="page-btn" id="nextPage">
+                Selanjutnya <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
     </div>
 
-    <!-- Modal Detail Film dengan Video Player -->
+    <!-- Modal Detail Film -->
     <div id="movieModal" class="modal">
         <div class="modal-content">
             <div class="close-modal"><i class="fas fa-times"></i></div>
@@ -663,26 +684,21 @@
                         
                         <div class="server-section">
                             <h3><i class="fas fa-server"></i> Pilih Server</h3>
-                            <div class="server-buttons" id="serverButtons">
-                                <!-- Server buttons akan diisi JavaScript -->
-                            </div>
+                            <div class="server-buttons" id="serverButtons"></div>
                         </div>
 
-                        <!-- Bagian Subtitle Indonesia - Multi Source -->
                         <div class="subtitle-section">
                             <h3><i class="fas fa-closed-captioning"></i> Subtitle Indonesia</h3>
-                            <div class="subtitle-grid" id="subtitleLinks">
-                                <!-- Akan diisi JavaScript -->
-                            </div>
+                            <div class="subtitle-grid" id="subtitleLinks"></div>
                             <div class="subtitle-instruction">
                                 <i class="fas fa-info-circle"></i> 
-                                Klik salah satu situs di atas untuk mencari subtitle Indonesia. Jika satu situs error, coba situs lainnya.
+                                Klik salah satu situs di atas untuk mencari subtitle Indonesia.
                             </div>
                         </div>
                         
                         <div class="warning-message">
                             <i class="fas fa-exclamation-triangle"></i> 
-                            <span>Jika video tidak bisa diputar, coba ganti server. Untuk subtitle, pilih situs yang bisa diakses.</span>
+                            <span>Jika video tidak bisa diputar, coba ganti server.</span>
                         </div>
                     </div>
                 </div>
@@ -696,30 +712,33 @@
         const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
         const TMDB_IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
-        // Server streaming alternatif (film lengkap)
+        // Server streaming
         const streamingServers = [
             { name: 'VidSrc #1', url: 'https://vidsrc.cc/v2/embed/movie/{TMDB_ID}' },
             { name: 'VidSrc #2', url: 'https://vidsrc.to/embed/movie/{TMDB_ID}' },
             { name: 'VidSrc #3', url: 'https://vidsrc.xyz/embed/movie/{TMDB_ID}' },
             { name: '2Embed', url: 'https://www.2embed.cc/embed/{TMDB_ID}' },
             { name: 'VidBinge', url: 'https://vidbinge.dev/embed/movie/{TMDB_ID}' },
-            { name: 'SuperEmbed', url: 'https://multiembed.mov/directstream.php?video_id={TMDB_ID}&tmdb=1' },
-            { name: 'VidSrc Pro', url: 'https://vidsrc.stream/embed/movie/{TMDB_ID}' }
+            { name: 'SuperEmbed', url: 'https://multiembed.mov/directstream.php?video_id={TMDB_ID}&tmdb=1' }
         ];
 
-        // Daftar kategori
+        // Kategori (tanpa icon agar lebih netral)
         const categories = [
-            { id: 'popular', name: 'Populer' },
-            { id: 'now_playing', name: 'Sedang Tayang' },
-            { id: 'upcoming', name: 'Akan Datang' },
-            { id: 'top_rated', name: 'Rating Tertinggi' }
+            { id: 'popular', name: 'Populer', endpoint: 'popular' },
+            { id: 'now_playing', name: 'Sedang Tayang', endpoint: 'now_playing' },
+            { id: 'upcoming', name: 'Akan Datang', endpoint: 'upcoming' },
+            { id: 'top_rated', name: 'Rating Tertinggi', endpoint: 'top_rated' },
+            { id: 'trending', name: 'Trending', endpoint: 'trending' }
         ];
 
         // State
-        let allMovies = [];
-        let currentPage = 1;
         let currentCategory = 'popular';
+        let currentPage = 1;
+        let totalPages = 1;
+        let allMovies = [];
         let currentMovie = null;
+        let lastUpdate = new Date();
+        let updateInterval = null;
 
         // DOM Elements
         const filmGrid = document.getElementById('filmGrid');
@@ -733,6 +752,38 @@
         const videoContainer = document.getElementById('videoContainer');
         const fullscreenBtn = document.getElementById('fullscreenBtn');
         const subtitleLinks = document.getElementById('subtitleLinks');
+        const prevPage = document.getElementById('prevPage');
+        const nextPage = document.getElementById('nextPage');
+        const pageInfo = document.getElementById('pageInfo');
+
+        // ==================== FUNGSI UPDATE OTOMATIS (DIAM-DIAM) ====================
+        function startAutoUpdate() {
+            // Update setiap 30 menit (1800000 ms) tanpa notifikasi
+            updateInterval = setInterval(async () => {
+                console.log('Auto-updating movies silently...');
+                await fetchMovies(true); // true = silent update
+                // Tidak ada notifikasi ke pengguna
+            }, 1800000); // 30 menit
+        }
+
+        // ==================== CEK PERUBAHAN TERBARU ====================
+        async function checkForUpdates() {
+            try {
+                // Ambil perubahan dalam 24 jam terakhir
+                const changesUrl = `${TMDB_BASE_URL}/movie/changes?api_key=${TMDB_API_KEY}&page=1`;
+                const response = await fetch(changesUrl);
+                const data = await response.json();
+                
+                console.log(`${data.results.length} film berubah dalam 24 jam terakhir`);
+                
+                // Jika ada perubahan dan sedang di halaman pertama, refresh diam-diam
+                if (data.results.length > 0 && currentPage === 1) {
+                    await fetchMovies(true);
+                }
+            } catch (error) {
+                console.error('Gagal cek update:', error);
+            }
+        }
 
         // ==================== FUNGSI FULLSCREEN ====================
         function toggleFullscreen() {
@@ -759,14 +810,11 @@
         function updateSubtitleLinks(movieTitle, year) {
             subtitleLinks.innerHTML = '';
             
-            // Situs subtitle alternatif
             const subtitleSites = [
                 { name: 'OpenSubtitles', url: 'https://www.opensubtitles.org/id/search2/sublanguageid-ina/moviename-{QUERY}', icon: 'fas fa-subscript', class: 'opensubtitles' },
                 { name: 'Subscene', url: 'https://subscene.com/subtitles/searchbytitle?query={QUERY}&l=Indonesian', icon: 'fas fa-search', class: 'subscene' },
                 { name: 'YIFY Subtitles', url: 'https://yifysubtitles.org/search?q={QUERY}', icon: 'fas fa-film', class: 'yify' },
-                { name: 'Podnapisi', url: 'https://www.podnapisi.net/subtitles/search/?keywords={QUERY}&language=id', icon: 'fas fa-language', class: 'podnapisi' },
-                { name: 'Subdl', url: 'https://subdl.com/s/search?q={QUERY}', icon: 'fas fa-download', class: 'subdl' },
-                { name: 'Titlovi', url: 'https://www.titlovi.com/pretraga/?q={QUERY}&lang=indonesian', icon: 'fas fa-globe', class: 'titlovi' }
+                { name: 'Podnapisi', url: 'https://www.podnapisi.net/subtitles/search/?keywords={QUERY}&language=id', icon: 'fas fa-language', class: 'podnapisi' }
             ];
             
             const searchQuery = `${movieTitle} ${year}`.trim();
@@ -774,7 +822,6 @@
             
             subtitleSites.forEach(site => {
                 const url = site.url.replace('{QUERY}', encodedQuery);
-                
                 const link = document.createElement('a');
                 link.href = url;
                 link.target = '_blank';
@@ -784,7 +831,7 @@
             });
         }
 
-        // ==================== FUNGSI UTAMA ====================
+        // ==================== RENDER KATEGORI ====================
         function renderCategories() {
             genreList.innerHTML = '';
             
@@ -795,41 +842,62 @@
                 item.dataset.cat = cat.id;
                 item.addEventListener('click', () => {
                     currentCategory = cat.id;
-                    renderCategories();
                     currentPage = 1;
+                    renderCategories();
                     fetchMovies();
                 });
                 genreList.appendChild(item);
             });
         }
 
-        async function fetchMovies() {
-            showLoading();
+        // ==================== FETCH MOVIES DARI TMDB ====================
+        async function fetchMovies(silent = false) {
+            if (!silent) {
+                showLoading();
+            }
             
             try {
-                const url = `${TMDB_BASE_URL}/movie/${currentCategory}?api_key=${TMDB_API_KEY}&language=id-ID&page=${currentPage}`;
+                let url;
+                if (currentCategory === 'trending') {
+                    url = `${TMDB_BASE_URL}/trending/movie/week?api_key=${TMDB_API_KEY}&page=${currentPage}`;
+                } else {
+                    url = `${TMDB_BASE_URL}/movie/${currentCategory}?api_key=${TMDB_API_KEY}&language=id-ID&page=${currentPage}`;
+                }
+                
                 const response = await fetch(url);
                 const data = await response.json();
                 
                 if (data.results && data.results.length > 0) {
                     allMovies = data.results;
+                    totalPages = Math.min(data.total_pages || 1, 500); // TMDB max 500 pages
+                    
                     renderMovies(allMovies);
                     
                     const categoryName = categories.find(c => c.id === currentCategory)?.name || 'Film';
+                    // Hapus semua indikator "Live dari TMDB"
                     sectionTitle.textContent = `${categoryName} - Halaman ${currentPage}`;
+                    
+                    // Update pagination
+                    updatePagination();
+                    
+                    // Catat waktu update
+                    lastUpdate = new Date();
+                    
                 } else {
                     filmGrid.innerHTML = '<div class="no-results">Tidak ada film ditemukan</div>';
                 }
             } catch (error) {
                 console.error('Error fetching movies:', error);
-                filmGrid.innerHTML = '<div class="no-results">Gagal memuat film. Silakan refresh halaman.</div>';
+                if (!silent) {
+                    filmGrid.innerHTML = '<div class="no-results">Gagal memuat film. Silakan refresh halaman.</div>';
+                }
             }
         }
 
+        // ==================== SEARCH MOVIES ====================
         async function searchMovies(query) {
             if (!query.trim()) {
-                currentCategory = 'popular';
-                renderCategories();
+                currentPage = 1;
                 fetchMovies();
                 return;
             }
@@ -837,16 +905,19 @@
             showLoading();
             
             try {
-                const url = `${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&language=id-ID&query=${encodeURIComponent(query)}&page=1&include_adult=false`;
+                const url = `${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&language=id-ID&query=${encodeURIComponent(query)}&page=${currentPage}&include_adult=false`;
                 const response = await fetch(url);
                 const data = await response.json();
                 
                 if (data.results && data.results.length > 0) {
                     allMovies = data.results;
+                    totalPages = Math.min(data.total_pages || 1, 500);
                     renderMovies(allMovies);
-                    sectionTitle.textContent = `Hasil pencarian: "${query}"`;
+                    sectionTitle.textContent = `Hasil pencarian: "${query}" - Halaman ${currentPage}`;
+                    updatePagination();
                 } else {
                     filmGrid.innerHTML = '<div class="no-results">Film tidak ditemukan</div>';
+                    document.getElementById('pagination').style.display = 'none';
                 }
             } catch (error) {
                 console.error('Error searching:', error);
@@ -854,10 +925,11 @@
             }
         }
 
+        // ==================== RENDER MOVIES ====================
         function renderMovies(movies) {
             filmGrid.innerHTML = '';
             
-            movies.slice(0, 20).forEach(movie => {
+            movies.forEach(movie => {
                 const card = document.createElement('div');
                 card.className = 'film-card';
 
@@ -881,6 +953,7 @@
             });
         }
 
+        // ==================== SHOW MOVIE DETAIL ====================
         async function showMovieDetail(movie) {
             modal.style.display = 'block';
             currentMovie = movie;
@@ -891,6 +964,7 @@
                 modal.style.overflowY = 'auto';
             }
             
+            // Tampilkan data dasar dulu
             document.getElementById('modalPoster').src = movie.poster_path 
                 ? `${TMDB_IMAGE_BASE}${movie.poster_path}` 
                 : 'https://via.placeholder.com/300x450/1a242f/f3b33d?text=No+Poster';
@@ -898,35 +972,20 @@
             document.getElementById('modalTitle').textContent = movie.title;
             document.getElementById('modalRating').textContent = movie.vote_average ? `${movie.vote_average.toFixed(1)}/10` : 'N/A';
             document.getElementById('modalRelease').textContent = movie.release_date || 'N/A';
+            document.getElementById('modalOverview').innerHTML = movie.overview || '<em>Sinopsis belum tersedia</em>';
             
+            // Ambil detail lengkap
             try {
-                const timestamp = new Date().getTime();
-                const response = await fetch(`${TMDB_BASE_URL}/movie/${movie.id}?api_key=${TMDB_API_KEY}&language=id-ID&append_to_response=translations&_=${timestamp}`);
+                const detailUrl = `${TMDB_BASE_URL}/movie/${movie.id}?api_key=${TMDB_API_KEY}&language=id-ID`;
+                const response = await fetch(detailUrl);
                 const detailData = await response.json();
                 
                 const genres = detailData.genres ? detailData.genres.map(g => g.name).join(', ') : 'N/A';
                 document.getElementById('modalGenre').textContent = genres;
                 
-                if (detailData.overview && detailData.overview.trim() !== '') {
-                    document.getElementById('modalOverview').innerHTML = detailData.overview;
-                } else {
-                    if (detailData.translations && detailData.translations.translations) {
-                        const idTranslation = detailData.translations.translations.find(t => t.iso_639_1 === 'id');
-                        if (idTranslation && idTranslation.data && idTranslation.data.overview) {
-                            document.getElementById('modalOverview').innerHTML = idTranslation.data.overview;
-                        } else {
-                            document.getElementById('modalOverview').innerHTML = '<em>Sinopsis belum tersedia dalam bahasa Indonesia</em>';
-                        }
-                    } else {
-                        document.getElementById('modalOverview').innerHTML = '<em>Sinopsis belum tersedia dalam bahasa Indonesia</em>';
-                    }
-                }
-                
                 const languages = {
                     'en': 'Inggris', 'id': 'Indonesia', 'ja': 'Jepang', 'ko': 'Korea',
-                    'zh': 'Mandarin', 'hi': 'Hindi', 'fr': 'Prancis', 'de': 'Jerman',
-                    'es': 'Spanyol', 'it': 'Italia', 'ru': 'Rusia', 'ar': 'Arab',
-                    'th': 'Thailand', 'vi': 'Vietnam', 'ms': 'Melayu'
+                    'zh': 'Mandarin', 'hi': 'Hindi', 'fr': 'Prancis', 'de': 'Jerman'
                 };
                 const originalLanguage = detailData.original_language || 'en';
                 document.getElementById('modalLanguage').textContent = languages[originalLanguage] || originalLanguage.toUpperCase();
@@ -935,7 +994,6 @@
                 console.error('Error fetching details:', error);
                 document.getElementById('modalGenre').textContent = 'N/A';
                 document.getElementById('modalLanguage').textContent = 'N/A';
-                document.getElementById('modalOverview').innerHTML = '<em>Gagal memuat sinopsis</em>';
             }
             
             // Set server buttons
@@ -958,20 +1016,50 @@
             
             if (movie.id) {
                 videoPlayer.src = streamingServers[0].url.replace('{TMDB_ID}', movie.id);
-                
-                // Update link subtitle
                 const year = movie.release_date ? movie.release_date.split('-')[0] : '';
                 updateSubtitleLinks(movie.title, year);
             }
         }
 
+        // ==================== PAGINATION ====================
+        function updatePagination() {
+            pageInfo.textContent = `Halaman ${currentPage}`;
+            prevPage.disabled = currentPage === 1;
+            nextPage.disabled = currentPage >= totalPages;
+            document.getElementById('pagination').style.display = 'flex';
+        }
+
+        prevPage.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                if (searchInput.value.trim()) {
+                    searchMovies(searchInput.value.trim());
+                } else {
+                    fetchMovies();
+                }
+            }
+        });
+
+        nextPage.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                if (searchInput.value.trim()) {
+                    searchMovies(searchInput.value.trim());
+                } else {
+                    fetchMovies();
+                }
+            }
+        });
+
+        // ==================== SHOW LOADING ====================
         function showLoading() {
             filmGrid.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Memuat film...</div>';
         }
 
-        // Event listeners
+        // ==================== EVENT LISTENERS ====================
         searchButton.addEventListener('click', () => {
             const query = searchInput.value.trim();
+            currentPage = 1;
             searchMovies(query);
         });
 
@@ -1005,10 +1093,14 @@
             }
         });
 
-        // Inisialisasi
+        // ==================== INITIALIZATION ====================
         document.addEventListener('DOMContentLoaded', () => {
             renderCategories();
             fetchMovies();
+            startAutoUpdate();
+            
+            // Cek update setiap 5 menit (diam-diam)
+            setInterval(checkForUpdates, 300000); // 5 menit
         });
     </script>
 </body>
