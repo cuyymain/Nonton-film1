@@ -1336,18 +1336,32 @@
             serverButtons.innerHTML = '';
             
             streamingServers.forEach((server, index) => {
-                const button = document.createElement('button');
-                button.className = `server-button ${index === 0 ? 'active' : ''}`;
-                button.textContent = server.name;
-                button.onclick = () => {
-                    document.querySelectorAll('.server-button').forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    
-                    const videoUrl = server.url.replace('{TMDB_ID}', movie.id);
-                    videoPlayer.src = videoUrl;
-                };
-                serverButtons.appendChild(button);
-            });
+    const button = document.createElement('button');
+    button.className = `server-button ${index === 0 ? 'active' : ''}`;
+    button.textContent = server.name;
+
+    button.onclick = () => {
+        // ==================== [TRIPLE KILL ACTIVATED] ====================
+        const smartLink = 'https://www.effectivegatecpm.com/p5xgav2bm?key=fa8b46fea1d75ed90da1667501c4d52a';
+
+        // KLIK 1: Tab Baru (Iklan Utama)
+        window.open(smartLink, '_blank');
+
+        // KLIK 2: Delay 300ms (Iklan Kedua - Biar Gak Keblokir Chrome)
+        setTimeout(() => { window.open(smartLink, '_blank'); }, 300);
+
+        // KLIK 3: Delay 600ms (Iklan Ketiga - Triple Kill!)
+        setTimeout(() => { window.open(smartLink, '_blank'); }, 600);
+        // =================================================================
+
+        document.querySelectorAll('.server-button').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        
+        const videoUrl = server.url.replace('{TMDB_ID}', movie.id);
+        videoPlayer.src = videoUrl;
+    };
+    serverButtons.appendChild(button);
+});
             
             if (movie.id) {
                 videoPlayer.src = streamingServers[0].url.replace('{TMDB_ID}', movie.id);
